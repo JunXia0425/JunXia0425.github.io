@@ -4,8 +4,9 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, XiaJun Blog">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex">
+    <meta name="keywords" content="集群之间的时间同步————ntp的使用教程, 夏军的博客">
+    <meta name="description" content="在分布式集群中，时间的同步是非常重要的。而我们的机器与机器之间往往会因为各种因素导致时间的不同步，继而影响我们集群的运行。
+NTP（Network Time Protocol）是一种使计算机时间同步化的一种协议，它可以使计算机对其服务器或者">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Hello World | XiaJun Blog</title>
+    <title>集群之间的时间同步————ntp的使用教程 | 夏军的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -37,11 +38,11 @@
     <nav id="headNav" class="bg-color nav-transparent">
         <div id="navContainer" class="nav-wrapper container">
             <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
+                <a href="index.html" class="waves-effect waves-light">
                     
                     <img src="/medias/logo.png" class="logo-img" alt="LOGO">
                     
-                    <span class="logo-span">XiaJun Blog</span>
+                    <span class="logo-span">夏军的博客</span>
                 </a>
             </div>
             
@@ -116,10 +117,10 @@
         
         <img src="/medias/logo.png" class="logo-img circle responsive-img">
         
-        <div class="logo-name">XiaJun Blog</div>
+        <div class="logo-name">夏军的博客</div>
         <div class="logo-desc">
             
-            计算机科学预计数|Java|大数据
+            计算机科学与技术|Java|大数据
             
         </div>
     </div>
@@ -185,7 +186,7 @@
         
         <li><div class="divider"></div></li>
         <li>
-            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+            <a href="https://github.com/JunXia0425" class="waves-effect waves-light" target="_blank">
                 <i class="fa fa-github-square fa-fw"></i>Fork Me
             </a>
         </li>
@@ -241,7 +242,7 @@
     }
 </style>
 
-<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+<a href="https://github.com/JunXia0425" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
    data-tooltip="Fork Me" data-position="left" data-delay="50">
     <svg viewBox="0 0 250 250" aria-hidden="true">
         <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -260,13 +261,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Hello World
+                        集群之间的时间同步————ntp的使用教程
                     </div>
                 </div>
             </div>
@@ -375,12 +376,29 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="tags/ntp/" target="_blank">
+                                <span class="chip bg-color">ntp</span>
+                            </a>
+                        
+                            <a href="tags/time-async/" target="_blank">
+                                <span class="chip bg-color">时间同步</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="categories/cluster-env-building/" class="post-category" target="_blank">
+                                集群&环境搭建
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -388,21 +406,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-07-12
+                    2019-07-23
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        73
+                        1.2k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        4 分
                     </div>
                     
                 
@@ -418,15 +436,136 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class=" language-bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class=" language-bash"><code class="language-bash">$ hexo server</code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class=" language-bash"><code class="language-bash">$ hexo generate</code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class=" language-bash"><code class="language-bash">$ hexo deploy</code></pre>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <p>在分布式集群中，时间的同步是非常重要的。而我们的机器与机器之间往往会因为各种因素导致时间的不同步，继而影响我们集群的运行。</p>
+<p>NTP（Network Time Protocol）是一种使计算机时间同步化的一种协议，它可以使计算机对其服务器或者时钟源做时间同步，来提高机器时间的精准度。</p>
+<p>本篇文章将从集群网络的有无两种情况来使用ntp对集群进行时间同步</p>
+<h2 id="集群能够连接外网">集群能够连接外网</h2>
+<p>如果集群能够连接外网的话，我们可以通过网络中的ntp服务器对集群做时间同步。</p>
+<ol>
+<li>
+<p>首先查看需要时间同步的机器上有没有<code>ntpdate</code>，先来执行一下<code>ntpdate</code> 命令</p>
+<p>如果出现下面的界面，恭喜恭喜，可以进行第3步</p>
+<img src="/3328442123/ntp1.png" title="存在ntpdate">
+<p>如果没有的话，则会出现下面的情况</p>
+<img src="/3328442123/ntp2.png" title="没有ntpdate">
+</li>
+</ol>
+<ol start="2">
+<li>
+<p>如果没有<code>ntpdate</code>可以通过下面的命令在yum上安装一个</p>
+<pre class=" language-language-shell"><code class="language-language-shell">yum -y install ntpdate
+</code></pre>
+</li>
+<li>
+<p>安装完毕就可以通过下面的命令进行时间校准</p>
+<pre class=" language-language-shell"><code class="language-language-shell"># 以下两个命令二选一
+ntpdate cn.pool.ntp.org
+
+ntpdate 120.25.108.11
+</code></pre>
+<p>ntpdate后面的参数<strong>可以是一个域名，也可以是一个IP地址</strong>，这里使用的是中国的ntp服务器。这里提供一个</p>
+<p><a href="http://www.ntp.org.cn/pool.php" target="_blank" rel="noopener">全球可用的NTP服务器列表</a>给大家</p>
+</li>
+<li>
+<p>执行完命令出现下面这一行就说明<u>本机和外网时间同步</u>成功😃</p>
+<img src="/3328442123/ntp3.png" title="同步成功">
+</li>
+<li>
+<p>接下来就可以在其他机器上使用同样的方法对机器时间同步。这样一来我们的机器时间都和ntp服务器上的时间一致了。</p>
+</li>
+</ol>
+<h2 id="集群不能连接外网">集群不能连接外网</h2>
+<p>之前的方法是使用所有的机器以外网的某一台机器（ntp服务器）时间为准进行校准，我们可以推理一下：</p>
+<p>当我们的机器都不能连接外网，我们还要做时间同步的时候该怎么办呢？是不是可以通过内网中的一个机器当作ntp服务器来进行以上操作呢？答案是肯定的！</p>
+<p>有些公司不允许服务器连接外网，这个时候我们可以选择一台机器当作ntp服务器，其他机器以这台机器上的时间为准做时间同步。</p>
+<p>如果你们的集群可以使用本地或者公司里的yum源，那么恭喜你，可以继续往下看😆</p>
+<p>我的集群IP分部如下：</p>
+<table>
+<thead>
+<tr>
+<th>hostname</th>
+<th>IP地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hadoop01</td>
+<td>10.211.55.101</td>
+</tr>
+<tr>
+<td>hadoop02</td>
+<td>10.211.55.102</td>
+</tr>
+<tr>
+<td>hadoop03</td>
+<td>10.211.55.103</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<p>在要做ntp服务器的机器上安装<code>ntp</code>（注意不是ntpdate）</p>
+<pre class=" language-language-shell"><code class="language-language-shell">yum -y install ntp
+</code></pre>
+</li>
+<li>
+<p>修改配置文件</p>
+<pre class=" language-language-shell"><code class="language-language-shell">vi /etc/ntp.conf
+</code></pre>
+<ol>
+<li>第18行放开注释，修改网段，一般情况子网掩码不用改，看自己集群网段情况修改</li>
+<li>注释掉22-25行的服务地址，一般会从<code>server 0</code>一直往下试，直到连接上，由于我们是本地的，他这里写的都是外网的域名，所以我们不需要，干掉它！！</li>
+<li>在下面加上<code>server 127.127.1.0</code></li>
+</ol>
+<p>修改完的配置文件长这个样子（在图片上加了些说明）</p>
+<img src="/3328442123/ntp4.png" title="配置文件">
+</li>
+<li>
+<p>然后给这个ntp服务器做一个开机自启</p>
+<pre class=" language-language-shell"><code class="language-language-shell">chkconfig ntpd on
+</code></pre>
+</li>
+<li>
+<p>启动<code>ntp</code>服务</p>
+<pre class=" language-language-shell"><code class="language-language-shell">service ntpd start
+</code></pre>
+</li>
+<li>
+<p>到这一步我们的本地ntp服务器就已经搭建好了。其他需要同步时间的机器，跟有网络时一样，需要用<code>ntpdate</code>命令进行同步，只不过后面的<strong>参数变成了我们刚刚配置那台机器的IP地址</strong></p>
+<p>我这里集群内当作ntp服务器的机器IP是10.211.55.101，所以同步命令就是</p>
+<pre class=" language-language-shell"><code class="language-language-shell">ntpdate 10.211.55.101
+
+# 如果配置了host文件，下面的命令也可以
+ntpdate hadoop01
+</code></pre>
+</li>
+<li>
+<p>跟之前一样会出现下面的界面，至此集群内的时间就又一致啦😏</p>
+<img src="/3328442123/ntp3.png" title="同步成功">
+</li>
+</ol>
+<h2 id="设置定时同步">设置定时同步</h2>
+<p>上面介绍了时间同步的流程，我们只同步了一次。但是如果再往后随着时间的推移，机器又受各种影响时间不同步了咋办呢？再执行一次<code>ntpdate</code>呗～</p>
+<p>可是我们每次都要去手动同步太蛋疼了，作为程序员，要学会偷懒嘛🙂</p>
+<p>撸一个cron定时任务脚本</p>
+<ol>
+<li>
+<p>新建定时任务</p>
+<pre class=" language-language-shell"><code class="language-language-shell">crontabl -e
+</code></pre>
+</li>
+<li>
+<p>按<code>i</code>键进入编辑模式，写入下面内容</p>
+<pre class=" language-language-shell"><code class="language-language-shell">*/15 * * * * ntpdate 10.211.0.101
+</code></pre>
+</li>
+<li>
+<p>写完按<code>esc</code> 再<code>:wq</code>保存退出就行了，美滋滋😄</p>
+</li>
+</ol>
+<blockquote>
+<p>到此ntp的使用就介绍完毕了，如有错误欢迎指正哦～</p>
+</blockquote>
 
             </div>
             <hr/>
@@ -585,9 +724,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Hello World》
+                    《集群之间的时间同步————ntp的使用教程》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/07/12/hello-world/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="" property="cc:attributionName"
                rel="cc:attributionURL">
                 夏军
             </a> 采用
@@ -613,6 +752,28 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '293be77bae66ea92d332',
+        clientSecret: '97150583fe9805a8776062537b352a9853a00927',
+        repo: 'JunXia0425.github.io',
+        owner: 'JunXia0425',
+        admin: null,
+        id: '2019-07-23T17-52-44',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
 
     
 
@@ -632,34 +793,51 @@
                 <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2019/07/12/hello-world/">
+                <a href="">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="集群之间的时间同步————ntp的使用教程">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">集群之间的时间同步————ntp的使用教程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
+                            在分布式集群中，时间的同步是非常重要的。而我们的机器与机器之间往往会因为各种因素导致时间的不同步，继而影响我们集群的运行。
+NTP（Network Time Protocol）是一种使计算机时间同步化的一种协议，它可以使计算机对其服务器或者
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-12
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-23
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            夏军
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="categories/cluster-env-building/" class="post-category" target="_blank">
+                                    集群&环境搭建
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="tags/ntp/" target="_blank">
+                        <span class="chip bg-color">ntp</span>
+                    </a>
+                    
+                    <a href="tags/time-async/" target="_blank">
+                        <span class="chip bg-color">时间同步</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -670,34 +848,51 @@
                 本篇&nbsp;<i class="fa fa-dot-circle-o"></i>
             </div>
             <div class="card">
-                <a href="/2019/07/12/hello-world/">
+                <a href="">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="集群之间的时间同步————ntp的使用教程">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">集群之间的时间同步————ntp的使用教程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
+                            在分布式集群中，时间的同步是非常重要的。而我们的机器与机器之间往往会因为各种因素导致时间的不同步，继而影响我们集群的运行。
+NTP（Network Time Protocol）是一种使计算机时间同步化的一种协议，它可以使计算机对其服务器或者
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-12
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-23
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            夏军
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="categories/cluster-env-building/" class="post-category" target="_blank">
+                                    集群&环境搭建
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="tags/ntp/" target="_blank">
+                        <span class="chip bg-color">ntp</span>
+                    </a>
+                    
+                    <a href="tags/time-async/" target="_blank">
+                        <span class="chip bg-color">时间同步</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -811,7 +1006,7 @@
         <div class="col s12 m8 l8 copy-right">
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">73</span>
+                <span class="white-color">1.2k</span>
             
 
             
