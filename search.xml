@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>“Identity API Scope Approval UI”——Mac多出来的未知应用处理</title>
+      <link href="/780669701.html"/>
+      <url>/780669701.html</url>
+      
+        <content type="html"><![CDATA[<p>最近换了新Mac后发现在Launchpad上发现一个名字叫<code>Identity API Scope Approval UI</code>陌生的应用，我打赌我没有安装这个应用。尝试打开发现这玩意好像也没啥用，而且还时不时意外退出🙃</p><img src="/780669701/pic1.png" title="未知应用"><p>一个没有啥用，还不知道咋来的应用占据了我的Launchpad的空间，强迫症都犯了。所以我要想办法解决掉它。于是像往前一样潇洒的打开了我的<code>访达(Finder)</code>进入了<code>应用程序</code>文件夹准备找到它并删除，然后发生了比较奇妙的事情，我竟然没有找到这个东西！！</p><p>遂百度，发现都木有搜到这玩意到底是个啥。然后Google发现这好像是一个<code>Chrome</code>浏览器的东西，反正没啥用可以删（原来是Google家的东西，难怪度娘不认得）。<a href="https://stackoverflow.com/questions/56119184/unknown-application-identity-api-scope-approval-ui-is-this-standard-for-chrom" target="_blank" rel="noopener">原文链接</a></p><p>下面讲下我是如何干掉这玩意的：</p><ol><li><p>进入我们的<code>Launchpad</code>找到<code>其他</code>文件夹，找到<code>终端(Terminal)</code>（或者使用自己的第三方终端应用，我这里用的iTerm2）</p><img src="/780669701/pic3.png" title="终端"></li><li><p>进入我们<strong>用户根目录</strong>下的<code>Applications</code>文件夹，注意是用户根目录下，难怪在<code>访达</code>里没找到</p><pre class=" language-language-shell"><code class="language-language-shell">cd ~/Applications</code></pre></li><li><p>输入<code>ls -l</code>你会看到一个<code>Chrome Apps.localized</code>目录</p><img src="/780669701/pic2.png" title="Chrome Apps.localized目录"></li><li><p>那我们进入这个目录看看有啥</p><pre class=" language-language-shell"><code class="language-language-shell">cd Chrome\ Apps.localizedls -l</code></pre><p>果然，发现了这个应用文件</p><img src="/780669701/pic4.png" title="文件"></li><li><p>接下来我们把这个文件删除就可以了</p><pre class=" language-language-shell"><code class="language-language-shell">rm -rf Identity\ API\ Scope\ Approval\ UI.app</code></pre><p>或者干脆一点直接把这个目录都干掉</p><pre class=" language-language-shell"><code class="language-language-shell">cd ../rm -rf Chrome\ Apps.localized</code></pre></li><li><p>大功告成，烦人的应用没有了🥳</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mac上的那些事儿 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mac </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>集群之间的时间同步————ntp的使用教程</title>
       <link href="/3328442123.html"/>
       <url>/3328442123.html</url>
