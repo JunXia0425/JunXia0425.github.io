@@ -5,7 +5,12 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta name="keywords" content="Mac上Maven项目“Cannot resolve file tools.jar“, 夏军的博客">
-    <meta name="description" content="&amp;#x95EE;&amp;#x9898;&amp;#x63CF;&amp;#x8FF0;&amp;#x5728;&amp;#x642D;&amp;#x5EFA;Hadoop&amp;#x7684;&amp;#x5F00;&amp;#x53D1;&amp;#x73AF;&amp;#x5883;&amp;#x7684;&amp;#x65F6;&amp;#">
+    <meta name="description" content="问题描述在搭建Hadoop的开发环境的时候，发现maven爆红，因为hadoop-common这个包引用了tools.jar
+
+
+尝试解决然后果断给pom.xml里加上依赖：
+&amp;lt;dependency&gt;
+   &amp;lt;groupId&gt;j">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -416,14 +421,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        442
+                        410
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        2 分
+                        1 分
                     </div>
                     
                 
@@ -439,10 +444,10 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="&#x95EE;&#x9898;&#x63CF;&#x8FF0;"><a href="#&#x95EE;&#x9898;&#x63CF;&#x8FF0;" class="headerlink" title="&#x95EE;&#x9898;&#x63CF;&#x8FF0;"></a>&#x95EE;&#x9898;&#x63CF;&#x8FF0;</h2><p>&#x5728;&#x642D;&#x5EFA;Hadoop&#x7684;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53D1;&#x73B0;maven&#x7206;&#x7EA2;&#xFF0C;&#x56E0;&#x4E3A;<code>hadoop-common</code>&#x8FD9;&#x4E2A;&#x5305;&#x5F15;&#x7528;&#x4E86;<code>tools.jar</code></p>
-<img src="/1247982846/pic1.png" title="tools.jar&#x88AB;&#x5F15;&#x7528;">
+                <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在搭建Hadoop的开发环境的时候，发现maven爆红，因为<code>hadoop-common</code>这个包引用了<code>tools.jar</code></p>
+<img src="/1247982846/pic1.png" title="tools.jar被引用">
 
-<h2 id="&#x5C1D;&#x8BD5;&#x89E3;&#x51B3;"><a href="#&#x5C1D;&#x8BD5;&#x89E3;&#x51B3;" class="headerlink" title="&#x5C1D;&#x8BD5;&#x89E3;&#x51B3;"></a>&#x5C1D;&#x8BD5;&#x89E3;&#x51B3;</h2><p>&#x7136;&#x540E;&#x679C;&#x65AD;&#x7ED9;<code>pom.xml</code>&#x91CC;&#x52A0;&#x4E0A;&#x4F9D;&#x8D56;&#xFF1A;</p>
+<h2 id="尝试解决"><a href="#尝试解决" class="headerlink" title="尝试解决"></a>尝试解决</h2><p>然后果断给<code>pom.xml</code>里加上依赖：</p>
 <pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>jdk.tools<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jdk.tools<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
@@ -450,32 +455,32 @@
    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">></span></span>system<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">></span></span>
    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>systemPath</span><span class="token punctuation">></span></span>${JAVA_HOME}/lib/tools.jar<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>systemPath</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
-<p>&#x53D1;&#x73B0;&#x8FD9;&#x4E2A;&#x4F9D;&#x8D56;&#x7206;&#x7EA2;&#xFF0C;&#x539F;&#x56E0;&#x662F;<code>Cannot resovle directry &apos;$&apos;{&apos;JAVA_HOME}&apos;</code>&#x548C;<code>Cannot resovle symbol JAVA_HOME</code>&#xFF0C;&#x90A3;&#x5C31;&#x628A;&#x8DEF;&#x5F84;&#x4ECE;<code>${JAVA_HOME}</code>&#x6539;&#x6210;&#x4E86;<code>${env.JAVA_HOME}</code>&#xFF0C;&#x8FD8;&#x662F;&#x4E0D;&#x80FD;&#x89E3;&#x6790;&#x8DEF;&#x5F84;&#xFF0C;Google&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x9700;&#x8981;&#x5199;&#x6210;&#x8FD9;&#x4E2A;&#x6837;&#x5B50;&#x624D;&#x884C;&#xFF08;idea&#x786E;&#x5B9E;&#x4E5F;&#x6709;&#x8FD9;&#x4E2A;&#x63D0;&#x793A;&#xFF09;&#xFF1A;</p>
+<p>发现这个依赖爆红，原因是<code>Cannot resovle directry &#39;$&#39;{&#39;JAVA_HOME}&#39;</code>和<code>Cannot resovle symbol JAVA_HOME</code>，那就把路径从<code>${JAVA_HOME}</code>改成了<code>${env.JAVA_HOME}</code>，还是不能解析路径，Google了一下，需要写成这个样子才行（idea确实也有这个提示）：</p>
 <pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>systemPath</span><span class="token punctuation">></span></span>${java.home}/lib/tools.jar<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>systemPath</span><span class="token punctuation">></span></span></code></pre>
-{%asset_img pic2.png &#x4FEE;&#x6539;&#x540E;&#x7684;pom.xml%}
+{%asset_img pic2.png 修改后的pom.xml%}
 
-<p>&#x7ED3;&#x679C;&#x53D1;&#x73B0;&#x8DEF;&#x5F84;&#x524D;&#x534A;&#x6BB5;&#x89E3;&#x6790;&#x51FA;&#x6765;&#x4E86;&#xFF0C;&#x524D;&#x51E0;&#x884C;&#x8FD8;&#x662F;&#x7EA2;&#x8272;&#x3002;&#x539F;&#x56E0;&#x662F;<code>Cannot resolve file tools.jar</code>&#xFF0C;&#x987F;&#x65F6;&#x4EA7;&#x751F;&#x4E86;&#x7591;&#x95EE;&#xFF0C;&#x6211;&#x7ACB;&#x9A6C;&#x770B;&#x770B;&#x81EA;&#x5DF1;&#x7684;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x91CC;<code>JAVA_HOME</code>&#x76EE;&#x5F55;&#x7ED3;&#x5408;&#x521A;&#x521A;&#x5199;&#x7684;&#x8DEF;&#x5F84;&#x6709;&#x6CA1;&#x6709;<code>tools.jar</code>&#x3002;&#x7ED3;&#x679C;&#x53D1;&#x73B0;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#x3002;</p>
+<p>结果发现路径前半段解析出来了，前几行还是红色。原因是<code>Cannot resolve file tools.jar</code>，顿时产生了疑问，我立马看看自己的环境变量里<code>JAVA_HOME</code>目录结合刚刚写的路径有没有<code>tools.jar</code>。结果发现没有问题。</p>
 <pre class=" language-shell"><code class="language-shell">cd $JAVA_HOME/lib
 ls -l</code></pre>
-<img src="/1247982846/pic3.jpg" title="&#x89E3;&#x6790;&#x4E0D;&#x5230;tools.jar">
+<img src="/1247982846/pic3.jpg" title="解析不到tools.jar">
 
-<h2 id="&#x95EE;&#x9898;&#x89E3;&#x51B3;"><a href="#&#x95EE;&#x9898;&#x89E3;&#x51B3;" class="headerlink" title="&#x95EE;&#x9898;&#x89E3;&#x51B3;"></a>&#x95EE;&#x9898;&#x89E3;&#x51B3;</h2><p>&#x65E2;&#x7136;&#x5C31;&#x53EA;&#x5DEE;&#x8FD9;&#x4E2A;<code>tools.jar</code>&#x6CA1;&#x627E;&#x5230;&#xFF0C;&#x8BF4;&#x660E;&#x8DEF;&#x5F84;&#x4E0D;&#x5BF9;&#xFF0C;&#x90A3;&#x4E48;&#x521A;&#x521A;&#x67E5;&#x770B;&#x4E86;<code>JAVA_HOME</code>&#x53D1;&#x73B0;&#x4E4B;&#x524D;&#x5199;&#x7684;&#x8DEF;&#x5F84;&#x786E;&#x5B9E;&#x80FD;&#x627E;&#x5230;&#x3002;&#x7A81;&#x7136;&#x60F3;&#x662F;&#x4E0D;&#x662F;<code>JAVA_HOME</code>&#x548C;&#x8FD9;&#x4E2A;<code>java.home</code>&#x8DEF;&#x5F84;&#x4E0D;&#x4E00;&#x6837;&#xFF1F;</p>
-<p>&#x81EA;&#x5DF1;&#x5199;&#x4E86;&#x4E2A;&#x4EE3;&#x7801;&#x9A8C;&#x8BC1;&#x4E86;&#x4E00;&#x4E0B;&#xFF1A;</p>
+<h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>既然就只差这个<code>tools.jar</code>没找到，说明路径不对，那么刚刚查看了<code>JAVA_HOME</code>发现之前写的路径确实能找到。突然想是不是<code>JAVA_HOME</code>和这个<code>java.home</code>路径不一样？</p>
+<p>自己写了个代码验证了一下：</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Property</span> <span class="token punctuation">{</span>
     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         String property <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"java.home"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>property<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<p>&#x8F93;&#x51FA;&#x7ED3;&#x679C;&#xFF1A;</p>
+<p>输出结果：</p>
 <pre class=" language-shell"><code class="language-shell">/Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/jre</code></pre>
-<p>&#x5C31;&#x6BD4;&#x6211;&#x7684;<code>JAVA_HOME</code>&#x591A;&#x5199;&#x4E86;&#x4E00;&#x4E2A;jre&#x76EE;&#x5F55;&#x3002;&#x771F;&#x5751;&#x554A;&#xFF01;</p>
-<h2 id="&#x7ED3;&#x8BBA;"><a href="#&#x7ED3;&#x8BBA;" class="headerlink" title="&#x7ED3;&#x8BBA;"></a>&#x7ED3;&#x8BBA;</h2><p>&#x6700;&#x540E;&#x628A;&#x8FD9;&#x4E2A;&#x8DEF;&#x5F84;&#x6539;&#x4E00;&#x4E0B;&#xFF0C;&#x5C31;&#x6CA1;&#x6709;&#x62A5;&#x9519;&#x4E86;</p>
+<p>就比我的<code>JAVA_HOME</code>多写了一个jre目录。真坑啊！</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>最后把这个路径改一下，就没有报错了</p>
 <pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>systemPath</span><span class="token punctuation">></span></span>${java.home}/../lib/tools.jar<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>systemPath</span><span class="token punctuation">></span></span></code></pre>
-<img src="/1247982846/pic4.png" title="&#x4FEE;&#x6539;&#x540E;">
+<img src="/1247982846/pic4.png" title="修改后">
 
 <blockquote>
-<p>&#x5E0C;&#x671B;&#x8FD9;&#x6B21;&#x7684;&#x67E5;&#x9519;&#x80FD;&#x5BF9;&#x5927;&#x5BB6;&#x6709;&#x5E2E;&#x52A9;&#x3002;&#x591A;&#x591A;&#x652F;&#x6301;&#x54E6;&#xFF5E;</p>
+<p>希望这次的查错能对大家有帮助。多多支持哦～</p>
 </blockquote>
 
             </div>
@@ -716,7 +721,12 @@ ls -l</code></pre>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            &#x95EE;&#x9898;&#x63CF;&#x8FF0;&#x5728;&#x642D;&#x5EFA;Hadoop&#x7684;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x7684;&#x65F6;&#
+                            问题描述在搭建Hadoop的开发环境的时候，发现maven爆红，因为hadoop-common这个包引用了tools.jar
+
+
+尝试解决然后果断给pom.xml里加上依赖：
+&lt;dependency>
+   &lt;groupId>j
                         
                     </div>
                     <div class="publish-info">
@@ -774,7 +784,10 @@ ls -l</code></pre>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            &#x6700;&#x8FD1;&#x6362;&#x4E86;&#x65B0;Mac&#x540E;&#x53D1;&#x73B0;&#x5728;Launchpad&#x4E0A;&#x53D1;&#x73B0;&#x4E00;&#x4
+                            最近换了新Mac后发现在Launchpad上发现一个名字叫Identity API Scope Approval UI陌生的应用，我打赌我没有安装这个应用。尝试打开发现这玩意好像也没啥用，而且还时不时意外退出
+
+
+一个没有啥用，还不知道咋来
                         
                     </div>
                     <div class="publish-info">
@@ -914,7 +927,7 @@ ls -l</code></pre>
         <div class="col s12 m8 l8 copy-right">
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">2.1k</span>
+                <span class="white-color">2k</span>
             
 
             
