@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>记一次ArrayStoreException错误</title>
+      <link href="/2914045440.html"/>
+      <url>/2914045440.html</url>
+      
+        <content type="html"><![CDATA[<p>在学习Eureka的时候启动报了一个错误（因为粗心大意），CausedBy截图如下：</p><img src="/2914045440/image-20200524224916550.png"><h3 id="问题定位过程"><a href="#问题定位过程" class="headerlink" title="问题定位过程"></a>问题定位过程</h3><ol><li><p>可以看出主要原因是抛出了<code>ArrayStoreException</code>，遂用IDEA的异常断点进行debug，步骤如下：</p><ol><li><p>在main方法打断点，然后在断点标记上右键点击，在弹出的对话框中点击<strong>More</strong>，又出来一个对话框</p><img src="/2914045440/image-20200524225550039.png"></li><li><p>在第一步最后弹出的对话框内，点击左上角加号（➕），然后选择第三个，在弹出的搜索框中填写ArrayStoreException，即抛出异常的类</p><img src="/2914045440/image-20200524230001605.png"></li><li><p>最后点击右下角<strong>Done</strong>，对项目进行debug</p></li></ol></li><li><p>根据结果是进行下面操作的时候抛出的异常，根据截图找到了var3这个变量。</p><img src="/2914045440/image-20200524230414365.png"></li><li><p>根据var3跟踪到了一个注解，然后没有了思路：</p><img src="/2914045440/image-20200524230619171.png"></li><li><p>再然后，定位CauseBy中的<code>TypeNotPresentExceptionProxy</code>，找到其构造函数进行debug。</p><img src="/2914045440/image-20200524230918515.png"><p>发现是包装了一个ClassNotFound的异常：</p><pre><code>java.lang.ClassNotFoundException: org.springframework.cloud.context.scope.refresh.RefreshScope</code></pre></li><li><p>全局搜索了一下确实没找到<code>RefreshScope</code>这个类，看其包路径发现了一些端倪，发现项目中缺少context相关包</p>{%asset_img image-20200524231205101.png %}</li><li><p>找到这个依赖，查看父依赖（点击左侧带字母o的图标即可跳转）</p>{%asset_img image-20200524232336270.png %}<p>通过查看父依赖pom文件的结构看到有一个跟我写的差不多的依赖，只是多了个starter。脑海里顿悟，我应该引入带starter的依赖（starter涉及autoconfig，而RefreshScope又和autoconfig有关）。</p>{%asset_img image-20200524232713811.png %}</li></ol><h3 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h3><p>随后对比erueka的pom引入，发现erueka的路径少写了个starter。补上，重新引包问题解决。</p><p>正确pom如下：</p><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.cloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-cloud-starter-netflix-eureka-server<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre><img src="/2914045440/image-20200524231647926.png"><p>引入正确pom依赖后，出现了<code>RefreshScope</code>所在的包<code>org.springframework.cloud.context</code></p><p>重启ok，问题解决</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Mac上Maven项目“Cannot resolve file tools.jar“</title>
       <link href="/1247982846.html"/>
       <url>/1247982846.html</url>
