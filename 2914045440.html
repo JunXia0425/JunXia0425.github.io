@@ -525,13 +525,13 @@
 <p>发现是包装了一个ClassNotFound的异常：</p>
 <pre><code>java.lang.ClassNotFoundException: org.springframework.cloud.context.scope.refresh.RefreshScope</code></pre></li>
 <li><p>全局搜索了一下确实没找到<code>RefreshScope</code>这个类，看其包路径发现了一些端倪，发现项目中缺少context相关包</p>
-<img src="/2914045440/image-20200524231205101.png">
+{%asset_img image-20200524231205101.png %}
 </li>
 <li><p>找到这个依赖，查看父依赖（点击左侧带字母o的图标即可跳转）</p>
-<img src="/2914045440/image-20200524232336270.png">
+{%asset_img image-20200524232336270.png %}
 
 <p>通过查看父依赖pom文件的结构看到有一个跟我写的差不多的依赖，只是多了个starter。脑海里顿悟，我应该引入带starter的依赖（starter涉及autoconfig，而RefreshScope又和autoconfig有关）。</p>
-<img src="/2914045440/image-20200524232713811.png">
+{%asset_img image-20200524232713811.png %}
 
 </li>
 </ol>
@@ -1329,7 +1329,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             <span id="icp"><img src="/medias/icp.png" style="vertical-align: text-bottom;" />
-                <a href="http://icp.chinaz.com/info?q=xiajun.tech" target="_blank">鲁ICP备19036978号</a>
+                <a href="http://icp.chinaz.com/info?q=xiajun.tech" target="_blank">鲁ICP备19036978-1号</a>
             </span>
             
         </div>
