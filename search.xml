@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>记一次ArrayStoreException错误</title>
+      <link href="/2914045440.html"/>
+      <url>/2914045440.html</url>
+      
+        <content type="html"><![CDATA[<p>在学习Eureka的时候启动报了一个错误（因为粗心大意），CausedBy截图如下：</p><img src="/2914045440/image-20200524224916550.png"><h3 id="问题定位过程"><a href="#问题定位过程" class="headerlink" title="问题定位过程"></a>问题定位过程</h3><ol><li><p>可以看出主要原因是抛出了<code>ArrayStoreException</code>，遂用IDEA的异常断点进行debug，步骤如下：</p><ol><li><p>在main方法打断点，然后在断点标记上右键点击，在弹出的对话框中点击<strong>More</strong>，又出来一个对话框</p><img src="/2914045440/image-20200524225550039.png"></li><li><p>在第一步最后弹出的对话框内，点击左上角加号（➕），然后选择第三个，在弹出的搜索框中填写ArrayStoreException，即抛出异常的类</p><img src="/2914045440/image-20200524230001605.png"></li><li><p>最后点击右下角<strong>Done</strong>，对项目进行debug</p></li></ol></li><li><p>根据结果是进行下面操作的时候抛出的异常，根据截图找到了var3这个变量。</p><img src="/2914045440/image-20200524230414365.png"></li><li><p>根据var3跟踪到了一个注解，然后没有了思路：</p><img src="/2914045440/image-20200524230619171.png"></li><li><p>再然后，定位CauseBy中的<code>TypeNotPresentExceptionProxy</code>，找到其构造函数进行debug。</p><img src="/2914045440/image-20200524230918515.png"><p>发现是包装了一个ClassNotFound的异常：</p><pre><code>java.lang.ClassNotFoundException: org.springframework.cloud.context.scope.refresh.RefreshScope</code></pre></li><li><p>全局搜索了一下确实没找到<code>RefreshScope</code>这个类，看其包路径发现了一些端倪，发现项目中缺少context相关包</p>{%asset_img image-20200524231205101.png %}</li><li><p>找到这个依赖，查看父依赖（点击左侧带字母o的图标即可跳转）</p>{%asset_img image-20200524232336270.png %}<p>通过查看父依赖pom文件的结构看到有一个跟我写的差不多的依赖，只是多了个starter。脑海里顿悟，我应该引入带starter的依赖（starter涉及autoconfig，而RefreshScope又和autoconfig有关）。</p>{%asset_img image-20200524232713811.png %}</li></ol><h3 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h3><p>随后对比erueka的pom引入，发现erueka的路径少写了个starter。补上，重新引包问题解决。</p><p>正确pom如下：</p><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.cloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-cloud-starter-netflix-eureka-server<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre><img src="/2914045440/image-20200524231647926.png"><p>引入正确pom依赖后，出现了<code>RefreshScope</code>所在的包<code>org.springframework.cloud.context</code></p><p>重启ok，问题解决</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> SpringCloud </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Mac上Maven项目“Cannot resolve file tools.jar“</title>
+      <link href="/1247982846.html"/>
+      <url>/1247982846.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在搭建Hadoop的开发环境的时候，发现maven爆红，因为<code>hadoop-common</code>这个包引用了<code>tools.jar</code></p><img src="/1247982846/pic1.png" title="tools.jar被引用"><h2 id="尝试解决"><a href="#尝试解决" class="headerlink" title="尝试解决"></a>尝试解决</h2><p>然后果断给<code>pom.xml</code>里加上依赖：</p><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>jdk.tools<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jdk.tools<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>1.8<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">></span></span>system<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">></span></span>   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>systemPath</span><span class="token punctuation">></span></span>${JAVA_HOME}/lib/tools.jar<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>systemPath</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre><p>发现这个依赖爆红，原因是<code>Cannot resovle directry &#39;$&#39;{&#39;JAVA_HOME}&#39;</code>和<code>Cannot resovle symbol JAVA_HOME</code>，那就把路径从<code>${JAVA_HOME}</code>改成了<code>${env.JAVA_HOME}</code>，还是不能解析路径，Google了一下，需要写成这个样子才行（idea确实也有这个提示）：</p><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>systemPath</span><span class="token punctuation">></span></span>${java.home}/lib/tools.jar<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>systemPath</span><span class="token punctuation">></span></span></code></pre>{%asset_img pic2.png 修改后的pom.xml%}<p>结果发现路径前半段解析出来了，前几行还是红色。原因是<code>Cannot resolve file tools.jar</code>，顿时产生了疑问，我立马看看自己的环境变量里<code>JAVA_HOME</code>目录结合刚刚写的路径有没有<code>tools.jar</code>。结果发现没有问题。</p><pre class=" language-shell"><code class="language-shell">cd $JAVA_HOME/libls -l</code></pre><img src="/1247982846/pic3.jpg" title="解析不到tools.jar"><h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>既然就只差这个<code>tools.jar</code>没找到，说明路径不对，那么刚刚查看了<code>JAVA_HOME</code>发现之前写的路径确实能找到。突然想是不是<code>JAVA_HOME</code>和这个<code>java.home</code>路径不一样？</p><p>自己写了个代码验证了一下：</p><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Property</span> <span class="token punctuation">{</span>    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>        String property <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"java.home"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>property<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token punctuation">}</span><span class="token punctuation">}</span></code></pre><p>输出结果：</p><pre class=" language-shell"><code class="language-shell">/Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/jre</code></pre><p>就比我的<code>JAVA_HOME</code>多写了一个jre目录。真坑啊！</p><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>最后把这个路径改一下，就没有报错了</p><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>systemPath</span><span class="token punctuation">></span></span>${java.home}/../lib/tools.jar<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>systemPath</span><span class="token punctuation">></span></span></code></pre><img src="/1247982846/pic4.png" title="修改后"><blockquote><p>希望这次的查错能对大家有帮助。多多支持哦～</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mac上的那些事儿 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mac </tag>
+            
+            <tag> Maven </tag>
+            
+            <tag> tools.jar </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>“Identity API Scope Approval UI”——Mac多出来的未知应用处理</title>
+      <link href="/780669701.html"/>
+      <url>/780669701.html</url>
+      
+        <content type="html"><![CDATA[<p>最近换了新Mac后发现在Launchpad上发现一个名字叫<code>Identity API Scope Approval UI</code>陌生的应用，我打赌我没有安装这个应用。尝试打开发现这玩意好像也没啥用，而且还时不时意外退出</p><img src="/780669701/pic1.png" title="未知应用"><p>一个没有啥用，还不知道咋来的应用占据了我的Launchpad的空间，强迫症都犯了。所以我要想办法解决掉它。于是像往前一样潇洒的打开了我的<code>访达(Finder)</code>进入了<code>应用程序</code>文件夹准备找到它并删除，然后发生了比较奇妙的事情，我竟然没有找到这个东西！！</p><p>遂百度，发现都木有搜到这玩意到底是个啥。然后Google发现这好像是一个<code>Chrome</code>浏览器的东西，反正没啥用可以删（原来是Google家的东西，难怪度娘不认得）。<a href="https://stackoverflow.com/questions/56119184/unknown-application-identity-api-scope-approval-ui-is-this-standard-for-chrom" target="_blank" rel="noopener">原文链接</a></p><p>下面讲下我是如何干掉这玩意的：</p><ol><li><p>进入我们的<code>Launchpad</code>找到<code>其他</code>文件夹，找到<code>终端(Terminal)</code>（或者使用自己的第三方终端应用，我这里用的iTerm2）</p><img src="/780669701/pic3.png" title="终端"></li><li><p>进入我们<strong>用户根目录</strong>下的<code>Applications</code>文件夹，注意是用户根目录下，难怪在<code>访达</code>里没找到</p><pre class=" language-shell"><code class="language-shell">cd ~/Applications</code></pre></li><li><p>输入<code>ls -l</code>你会看到一个<code>Chrome Apps.localized</code>目录 </p>{% asset_img pic3.png This is an example image %}</li><li><p>那我们进入这个目录看看有啥</p><pre class=" language-shell"><code class="language-shell">cd Chrome\ Apps.localizedls -l</code></pre><p>果然，发现了这个应用文件</p><img src="/780669701/pic4.png" title="文件"></li><li><p>接下来我们把这个文件删除就可以了</p><pre class=" language-shell"><code class="language-shell">rm -rf Identity\ API\ Scope\ Approval\ UI.app</code></pre><p>或者干脆一点直接把这个目录都干掉</p><pre class=" language-shell"><code class="language-shell">cd ../rm -rf Chrome\ Apps.localized</code></pre></li><li><p>大功告成，烦人的应用没有了</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mac上的那些事儿 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mac </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>集群之间的时间同步————ntp的使用教程</title>
+      <link href="/3328442123.html"/>
+      <url>/3328442123.html</url>
+      
+        <content type="html"><![CDATA[<p>在分布式集群中，时间的同步是非常重要的。而我们的机器与机器之间往往会因为各种因素导致时间的不同步，继而影响我们集群的运行。</p><p>NTP（Network Time Protocol）是一种使计算机时间同步化的一种协议，它可以使计算机对其服务器或者时钟源做时间同步，来提高机器时间的精准度。</p><p>本篇文章将从集群网络的有无两种情况来使用ntp对集群进行时间同步</p><h2 id="集群能够连接外网"><a href="#集群能够连接外网" class="headerlink" title="集群能够连接外网"></a>集群能够连接外网</h2><p>如果集群能够连接外网的话，我们可以通过网络中的ntp服务器对集群做时间同步。</p><ol><li><p>首先查看需要时间同步的机器上有没有<code>ntpdate</code>，先来执行一下<code>ntpdate</code> 命令</p><p>如果出现下面的界面，恭喜恭喜，可以进行第3步</p><img src="/3328442123/ntp1.png" title="存在ntpdate"><p>如果没有的话，则会出现下面的情况</p><img src="/3328442123/ntp2.png" title="没有ntpdate"></li></ol><ol start="2"><li><p>如果没有<code>ntpdate</code>可以通过下面的命令在yum上安装一个</p><pre class=" language-shell"><code class="language-shell">yum -y install ntpdate</code></pre></li><li><p>安装完毕就可以通过下面的命令进行时间校准</p><pre class=" language-shell"><code class="language-shell"># 以下两个命令二选一ntpdate cn.pool.ntp.orgntpdate 120.25.108.11</code></pre><p>ntpdate后面的参数<strong>可以是一个域名，也可以是一个IP地址</strong>，这里使用的是中国的ntp服务器。这里提供一个<a href="http://www.ntp.org.cn/pool.php" target="_blank" rel="noopener">全球可用的NTP服务器列表</a>给大家</p></li><li><p>执行完命令出现下面这一行就说明<u>本机和外网时间同步</u>成功</p><img src="/3328442123/ntp3.png" title="同步成功"></li><li><p>接下来就可以在其他机器上使用同样的方法对机器时间同步。这样一来我们的机器时间都和ntp服务器上的时间一致了。</p></li></ol><h2 id="集群不能连接外网"><a href="#集群不能连接外网" class="headerlink" title="集群不能连接外网"></a>集群不能连接外网</h2><p>之前的方法是使用所有的机器以外网的某一台机器（ntp服务器）时间为准进行校准，我们可以推理一下：</p><p>当我们的机器都不能连接外网，我们还要做时间同步的时候该怎么办呢？是不是可以通过内网中的一个机器当作ntp服务器来进行以上操作呢？答案是肯定的！</p><p>有些公司不允许服务器连接外网，这个时候我们可以选择一台机器当作ntp服务器，其他机器以这台机器上的时间为准做时间同步。</p><p>如果你们的集群可以使用本地或者公司里的yum源，那么恭喜你，可以继续往下看</p><p>我的集群IP分部如下：</p><table><thead><tr><th>hostname</th><th>IP地址</th></tr></thead><tbody><tr><td>hadoop01</td><td>10.211.55.101</td></tr><tr><td>hadoop02</td><td>10.211.55.102</td></tr><tr><td>hadoop03</td><td>10.211.55.103</td></tr></tbody></table><ol><li><p>在要做ntp服务器的机器上安装<code>ntp</code>（注意不是ntpdate）</p><pre class=" language-shell"><code class="language-shell">yum -y install ntp</code></pre></li><li><p>修改配置文件</p><pre class=" language-shell"><code class="language-shell">vi /etc/ntp.conf</code></pre><ol><li>第18行放开注释，修改网段，一般情况子网掩码不用改，看自己集群网段情况修改</li><li>注释掉22-25行的服务地址，一般会从<code>server 0</code>一直往下试，直到连接上，由于我们是本地的，他这里写的都是外网的域名，所以我们不需要，干掉它！！</li><li>在下面加上<code>server 127.127.1.0</code></li></ol><p>修改完的配置文件长这个样子（在图片上加了些说明）</p><img src="/3328442123/ntp4.png" title="配置文件"></li><li><p>然后给这个ntp服务器做一个开机自启</p><pre class=" language-shell"><code class="language-shell">chkconfig ntpd on</code></pre></li><li><p>启动<code>ntp</code>服务</p><pre class=" language-shell"><code class="language-shell">service ntpd start</code></pre></li><li><p>到这一步我们的本地ntp服务器就已经搭建好了。其他需要同步时间的机器，跟有网络时一样，需要用<code>ntpdate</code>命令进行同步，只不过后面的<strong>参数变成了我们刚刚配置那台机器的IP地址</strong></p><p>我这里集群内当作ntp服务器的机器IP是10.211.55.101，所以同步命令就是</p><pre class=" language-shell"><code class="language-shell">ntpdate 10.211.55.101# 如果配置了host文件，下面的命令也可以ntpdate hadoop01</code></pre></li><li><p>跟之前一样会出现下面的界面，至此集群内的时间就又一致啦</p><img src="/3328442123/ntp3.png" title="同步成功"></li></ol><h2 id="设置定时同步"><a href="#设置定时同步" class="headerlink" title="设置定时同步"></a>设置定时同步</h2><p>上面介绍了时间同步的流程，我们只同步了一次。但是如果再往后随着时间的推移，机器又受各种影响时间不同步了咋办呢？再执行一次<code>ntpdate</code>呗～</p><p>可是我们每次都要去手动同步太蛋疼了，作为程序员，要学会偷懒嘛</p><p>撸一个cron定时任务脚本</p><ol><li><p>新建定时任务</p><pre class=" language-shell"><code class="language-shell">crontabl -e</code></pre></li><li><p>按<code>i</code>键进入编辑模式，写入下面内容</p><pre class=" language-shell"><code class="language-shell">*/15 * * * * ntpdate 10.211.0.101</code></pre></li><li><p>写完按<code>esc</code> 再<code>:wq</code>保存退出就行了，美滋滋</p></li></ol><blockquote><p>到此ntp的使用就介绍完毕了，如有错误欢迎指正哦～</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 集群&amp;环境搭建 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ntp </tag>
+            
+            <tag> 时间同步 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
